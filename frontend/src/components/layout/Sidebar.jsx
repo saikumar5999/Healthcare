@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-const navItems = [
+const officeNavItems = [
   { label: "Dashboard", to: "/" },
   { label: "Patients", to: "/patients" },
   { label: "Appointments", to: "/appointments" },
@@ -8,7 +8,13 @@ const navItems = [
   { label: "Patient Portal", to: "/portal" }
 ];
 
-const Sidebar = ({ onClinicStatusClick }) => {
+const customerNavItems = [
+  { label: "Patient Portal", to: "/portal" },
+  { label: "Billing", to: "/billing" }
+];
+
+const Sidebar = ({ onClinicStatusClick, role }) => {
+  const navItems = role === "customer" ? customerNavItems : officeNavItems;
   return (
     <aside className="hidden w-64 flex-col border-r border-slate-100 bg-white p-6 md:flex">
       <div className="flex flex-col gap-1">
@@ -37,14 +43,23 @@ const Sidebar = ({ onClinicStatusClick }) => {
           </NavLink>
         ))}
       </nav>
-      <button
-        type="button"
-        onClick={onClinicStatusClick}
-        className="mt-auto rounded-2xl bg-sky-50 p-4 text-left transition hover:bg-sky-100"
-      >
-        <p className="text-sm font-semibold text-sky-800">Clinic Status</p>
-        <p className="mt-1 text-xs text-slate-500">Tap to view details</p>
-      </button>
+      {role === "office" ? (
+        <button
+          type="button"
+          onClick={onClinicStatusClick}
+          className="mt-auto rounded-2xl bg-sky-50 p-4 text-left transition hover:bg-sky-100"
+        >
+          <p className="text-sm font-semibold text-sky-800">Clinic Status</p>
+          <p className="mt-1 text-xs text-slate-500">Tap to view details</p>
+        </button>
+      ) : (
+        <div className="mt-auto rounded-2xl bg-sky-50 p-4">
+          <p className="text-sm font-semibold text-sky-800">Support</p>
+          <p className="mt-1 text-xs text-slate-500">
+            Contact us at (555) 010-9090
+          </p>
+        </div>
+      )}
     </aside>
   );
 };

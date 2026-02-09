@@ -158,5 +158,28 @@
       "date": "2026-01-08",
       "status": "Reviewed"
     }
+  ],
+  "billing": [
+    {
+      "id": "B-4401",
+      "service": "Cardiology Consultation",
+      "amount": 220,
+      "date": "2026-01-05",
+      "status": "Due"
+    },
+    {
+      "id": "B-4402",
+      "service": "Lab Work - CBC",
+      "amount": 80,
+      "date": "2026-01-12",
+      "status": "Paid"
+    },
+    {
+      "id": "B-4403",
+      "service": "Radiology - X-Ray",
+      "amount": 140,
+      "date": "2026-01-20",
+      "status": "Overdue"
+    }
   ]
 }

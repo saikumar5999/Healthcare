@@ -6,7 +6,12 @@ const statusStyles = {
   Discharged: "bg-slate-100 text-slate-600",
   Confirmed: "bg-emerald-100 text-emerald-700",
   Pending: "bg-amber-100 text-amber-700",
-  Completed: "bg-sky-100 text-sky-700"
+  Completed: "bg-sky-100 text-sky-700",
+  Paid: "bg-emerald-100 text-emerald-700",
+  Due: "bg-amber-100 text-amber-700",
+  Overdue: "bg-rose-100 text-rose-700",
+  Reviewed: "bg-slate-100 text-slate-600",
+  Available: "bg-sky-100 text-sky-700"
 };
 
 const StatusBadge = ({ status }) => {

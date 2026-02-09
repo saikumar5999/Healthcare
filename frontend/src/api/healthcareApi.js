@@ -54,6 +54,15 @@ export const fetchPortalReports = async () => {
   return simulateRequest(sampleData.portalReports || []);
 };
 
+export const fetchBilling = async () => {
+  return simulateRequest(sampleData.billing || []);
+};
+
+export const payBill = async (payload) => {
+  // Placeholder: swap with POST /api/billing/pay.
+  return simulateRequest({ success: true, payload });
+};
+
 export const createDoctor = async (payload) => {
   // Placeholder: swap with POST /api/doctors.
   return simulateRequest({ success: true, payload });
