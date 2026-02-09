@@ -3,8 +3,15 @@ import LoadingState from "../components/ui/LoadingState";
 import EmptyState from "../components/ui/EmptyState";
 import StatusBadge from "../components/ui/StatusBadge";
 import Modal from "../components/ui/Modal";
-import { createAppointment, fetchAppointments } from "../api/healthcareApi";
-import { validateAppointment } from "../utils/validators";
+import {
+  createAppointment,
+  fetchAppointments,
+  updateAppointmentStatus
+} from "../api/healthcareApi";
+import {
+  validateAppointment,
+  validateAppointmentStatus
+} from "../utils/validators";
 
 const initialFormState = {
   patient: "",
@@ -21,6 +28,10 @@ const Appointments = () => {
   const [formValues, setFormValues] = useState(initialFormState);
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [editTarget, setEditTarget] = useState(null);
+  const [editStatus, setEditStatus] = useState("");
+  const [editErrors, setEditErrors] = useState({});
 
   useEffect(() => {
     let active = true;
@@ -61,6 +72,33 @@ const Appointments = () => {
     setModalOpen(false);
   };
 
+  const handleEditOpen = (appointment) => {
+    setEditTarget(appointment);
+    setEditStatus(appointment.status);
+    setEditErrors({});
+    setEditOpen(true);
+  };
+
+  const handleStatusSave = async () => {
+    if (!editTarget) return;
+
+    const validationErrors = validateAppointmentStatus(editStatus);
+    setEditErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length > 0) return;
+
+    await updateAppointmentStatus(editTarget.id, editStatus);
+
+    setAppointments((prev) =>
+      prev.map((appointment) =>
+        appointment.id === editTarget.id
+          ? { ...appointment, status: editStatus }
+          : appointment
+      )
+    );
+    setEditOpen(false);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -99,6 +137,7 @@ const Appointments = () => {
                   <th className="px-4 py-3">Patient</th>
                   <th className="px-4 py-3">Doctor</th>
                   <th className="px-4 py-3">Status</th>
+                  <th className="px-4 py-3">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -113,6 +152,15 @@ const Appointments = () => {
                     <td className="px-4 py-3">{appointment.doctor}</td>
                     <td className="px-4 py-3">
                       <StatusBadge status={appointment.status} />
+                    </td>
+                    <td className="px-4 py-3">
+                      <button
+                        type="button"
+                        onClick={() => handleEditOpen(appointment)}
+                        className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-50"
+                      >
+                        Edit Status
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -223,6 +271,60 @@ const Appointments = () => {
             Form validation will be upgraded when API rules are finalized.
           </p>
         </form>
+      </Modal>
+
+      <Modal
+        open={editOpen}
+        onClose={() => setEditOpen(false)}
+        title="Update Appointment Status"
+        footer={
+          <div className="flex items-center justify-end gap-3">
+            <button
+              type="button"
+              onClick={() => setEditOpen(false)}
+              className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={handleStatusSave}
+              className="rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-700"
+            >
+              Save Status
+            </button>
+          </div>
+        }
+      >
+        {editTarget ? (
+          <div className="space-y-4">
+            <div className="rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
+              {editTarget.patient} · {editTarget.date} at {editTarget.time}
+            </div>
+            <div>
+              <label className="text-xs font-semibold text-slate-500">
+                Appointment Status
+              </label>
+              <select
+                value={editStatus}
+                onChange={(event) => setEditStatus(event.target.value)}
+                className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm"
+              >
+                <option>Pending</option>
+                <option>Confirmed</option>
+                <option>Completed</option>
+              </select>
+              {editErrors.status ? (
+                <p className="mt-1 text-xs text-rose-600">
+                  {editErrors.status}
+                </p>
+              ) : null}
+            </div>
+            <p className="text-xs text-slate-400">
+              Status updates will sync to the backend when available.
+            </p>
+          </div>
+        ) : null}
       </Modal>
     </div>
   );

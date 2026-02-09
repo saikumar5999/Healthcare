@@ -111,5 +111,28 @@
       "2025-12-18: CBC - normal",
       "2026-01-12: Lipid panel - borderline"
     ]
-  }
+  },
+  "notifications": [
+    {
+      "id": "N-301",
+      "title": "Lab results ready",
+      "detail": "CBC results available for Avery Coleman.",
+      "time": "10 mins ago",
+      "type": "Lab"
+    },
+    {
+      "id": "N-302",
+      "title": "Appointment confirmed",
+      "detail": "Noah Bennett confirmed 10:30 AM slot.",
+      "time": "45 mins ago",
+      "type": "Appointments"
+    },
+    {
+      "id": "N-303",
+      "title": "Doctor on duty",
+      "detail": "Dr. Anika Shah checked in.",
+      "time": "1 hour ago",
+      "type": "Staff"
+    }
+  ]
 }

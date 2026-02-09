@@ -27,7 +27,21 @@ export const fetchPatientDetails = async (id) => {
   return simulateRequest({ ...sampleData.patientDetails, id });
 };
 
+export const fetchNotifications = async () => {
+  return simulateRequest(sampleData.notifications || []);
+};
+
 export const createAppointment = async (payload) => {
   // Placeholder: swap with POST /api/appointments.
   return simulateRequest({ success: true, payload });
+};
+
+export const updateAppointmentStatus = async (id, status) => {
+  // Placeholder: swap with PATCH /api/appointments/:id.
+  return simulateRequest({ success: true, id, status });
+};
+
+export const updatePatient = async (id, payload) => {
+  // Placeholder: swap with PATCH /api/patients/:id.
+  return simulateRequest({ success: true, id, payload });
 };

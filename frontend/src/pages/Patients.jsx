@@ -4,13 +4,19 @@ import SearchInput from "../components/ui/SearchInput";
 import StatusBadge from "../components/ui/StatusBadge";
 import LoadingState from "../components/ui/LoadingState";
 import EmptyState from "../components/ui/EmptyState";
-import { fetchPatients } from "../api/healthcareApi";
+import Modal from "../components/ui/Modal";
+import { fetchPatients, updatePatient } from "../api/healthcareApi";
+import { validatePatientUpdate } from "../utils/validators";
 
 const Patients = () => {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [editOpen, setEditOpen] = useState(false);
+  const [editTarget, setEditTarget] = useState(null);
+  const [editValues, setEditValues] = useState({ contact: "", status: "" });
+  const [editErrors, setEditErrors] = useState({});
 
   useEffect(() => {
     let active = true;
@@ -37,6 +43,37 @@ const Patients = () => {
       return matchesName && matchesStatus;
     });
   }, [patients, search, statusFilter]);
+
+  const handleEditOpen = (patient) => {
+    setEditTarget(patient);
+    setEditValues({ contact: patient.contact, status: patient.status });
+    setEditErrors({});
+    setEditOpen(true);
+  };
+
+  const handleEditChange = (field) => (event) => {
+    setEditValues((prev) => ({ ...prev, [field]: event.target.value }));
+  };
+
+  const handleEditSave = async () => {
+    if (!editTarget) return;
+
+    const validationErrors = validatePatientUpdate(editValues);
+    setEditErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length > 0) return;
+
+    await updatePatient(editTarget.id, editValues);
+
+    setPatients((prev) =>
+      prev.map((patient) =>
+        patient.id === editTarget.id
+          ? { ...patient, ...editValues }
+          : patient
+      )
+    );
+    setEditOpen(false);
+  };
 
   return (
     <div className="space-y-6">
@@ -116,6 +153,7 @@ const Patients = () => {
                         </Link>
                         <button
                           type="button"
+                          onClick={() => handleEditOpen(patient)}
                           className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-50"
                         >
                           Edit
@@ -129,6 +167,76 @@ const Patients = () => {
           </div>
         </div>
       )}
+
+      <Modal
+        open={editOpen}
+        onClose={() => setEditOpen(false)}
+        title="Edit Patient"
+        footer={
+          <div className="flex items-center justify-end gap-3">
+            <button
+              type="button"
+              onClick={() => setEditOpen(false)}
+              className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={handleEditSave}
+              className="rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-700"
+            >
+              Save Changes
+            </button>
+          </div>
+        }
+      >
+        {editTarget ? (
+          <div className="space-y-4">
+            <div className="rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
+              {editTarget.name} · {editTarget.id}
+            </div>
+            <div>
+              <label className="text-xs font-semibold text-slate-500">
+                Contact
+              </label>
+              <input
+                value={editValues.contact}
+                onChange={handleEditChange("contact")}
+                className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm"
+                placeholder="Phone or email"
+              />
+              {editErrors.contact ? (
+                <p className="mt-1 text-xs text-rose-600">
+                  {editErrors.contact}
+                </p>
+              ) : null}
+            </div>
+            <div>
+              <label className="text-xs font-semibold text-slate-500">
+                Status
+              </label>
+              <select
+                value={editValues.status}
+                onChange={handleEditChange("status")}
+                className="mt-2 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm"
+              >
+                <option>Active</option>
+                <option>Critical</option>
+                <option>Discharged</option>
+              </select>
+              {editErrors.status ? (
+                <p className="mt-1 text-xs text-rose-600">
+                  {editErrors.status}
+                </p>
+              ) : null}
+            </div>
+            <p className="text-xs text-slate-400">
+              Patient updates will sync once the backend is connected.
+            </p>
+          </div>
+        ) : null}
+      </Modal>
     </div>
   );
 };

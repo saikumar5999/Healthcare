@@ -1,4 +1,4 @@
-const Topbar = () => {
+const Topbar = ({ onNotificationsClick, notificationCount }) => {
   return (
     <header className="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-white px-6 py-4 shadow-sm">
       <div>
@@ -15,9 +15,15 @@ const Topbar = () => {
         </div>
         <button
           type="button"
+          onClick={onNotificationsClick}
           className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50"
         >
           Notifications
+          {notificationCount > 0 ? (
+            <span className="ml-2 rounded-full bg-rose-100 px-2 py-0.5 text-xs font-semibold text-rose-700">
+              {notificationCount}
+            </span>
+          ) : null}
         </button>
       </div>
     </header>
