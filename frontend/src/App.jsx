@@ -5,6 +5,7 @@ import Patients from "./pages/Patients";
 import Appointments from "./pages/Appointments";
 import Doctors from "./pages/Doctors";
 import PatientDetails from "./pages/PatientDetails";
+import PatientPortal from "./pages/PatientPortal";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/patients/:id" element={<PatientDetails />} />
         <Route path="/appointments" element={<Appointments />} />
         <Route path="/doctors" element={<Doctors />} />
+        <Route path="/portal" element={<PatientPortal />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

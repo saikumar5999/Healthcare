@@ -4,10 +4,11 @@ const navItems = [
   { label: "Dashboard", to: "/" },
   { label: "Patients", to: "/patients" },
   { label: "Appointments", to: "/appointments" },
-  { label: "Doctors", to: "/doctors" }
+  { label: "Doctors", to: "/doctors" },
+  { label: "Patient Portal", to: "/portal" }
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ onClinicStatusClick }) => {
   return (
     <aside className="hidden w-64 flex-col border-r border-slate-100 bg-white p-6 md:flex">
       <div className="flex flex-col gap-1">
@@ -36,14 +37,14 @@ const Sidebar = () => {
           </NavLink>
         ))}
       </nav>
-      <div className="mt-auto rounded-2xl bg-sky-50 p-4">
-        <p className="text-sm font-semibold text-sky-800">
-          Clinic Status
-        </p>
-        <p className="mt-1 text-xs text-slate-500">
-          6 departments active
-        </p>
-      </div>
+      <button
+        type="button"
+        onClick={onClinicStatusClick}
+        className="mt-auto rounded-2xl bg-sky-50 p-4 text-left transition hover:bg-sky-100"
+      >
+        <p className="text-sm font-semibold text-sky-800">Clinic Status</p>
+        <p className="mt-1 text-xs text-slate-500">Tap to view details</p>
+      </button>
     </aside>
   );
 };

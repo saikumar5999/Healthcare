@@ -5,12 +5,15 @@ import Topbar from "./Topbar";
 import Modal from "../ui/Modal";
 import LoadingState from "../ui/LoadingState";
 import EmptyState from "../ui/EmptyState";
-import { fetchNotifications } from "../../api/healthcareApi";
+import { fetchClinicStatus, fetchNotifications } from "../../api/healthcareApi";
 
 const AppLayout = () => {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [notificationsLoading, setNotificationsLoading] = useState(true);
+  const [clinicStatusOpen, setClinicStatusOpen] = useState(false);
+  const [clinicStatus, setClinicStatus] = useState(null);
+  const [clinicStatusLoading, setClinicStatusLoading] = useState(true);
 
   useEffect(() => {
     let active = true;
@@ -19,6 +22,13 @@ const AppLayout = () => {
       if (active) {
         setNotifications(data);
         setNotificationsLoading(false);
+      }
+    });
+
+    fetchClinicStatus().then((data) => {
+      if (active) {
+        setClinicStatus(data);
+        setClinicStatusLoading(false);
       }
     });
 
@@ -35,7 +45,7 @@ const AppLayout = () => {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800">
       <div className="flex">
-        <Sidebar />
+        <Sidebar onClinicStatusClick={() => setClinicStatusOpen(true)} />
         <main className="flex-1 px-6 py-6">
           <Topbar
             onNotificationsClick={() => setNotificationsOpen(true)}
@@ -96,6 +106,73 @@ const AppLayout = () => {
               </div>
             ))}
           </div>
+        )}
+      </Modal>
+      <Modal
+        open={clinicStatusOpen}
+        onClose={() => setClinicStatusOpen(false)}
+        title="Clinic Status"
+        footer={
+          <div className="flex items-center justify-end">
+            <button
+              type="button"
+              onClick={() => setClinicStatusOpen(false)}
+              className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50"
+            >
+              Close
+            </button>
+          </div>
+        }
+      >
+        {clinicStatusLoading ? (
+          <LoadingState label="Loading clinic status..." />
+        ) : clinicStatus ? (
+          <div className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-3">
+              <div className="rounded-xl bg-slate-50 p-4">
+                <p className="text-xs font-semibold text-slate-500">
+                  Departments Active
+                </p>
+                <p className="mt-2 text-2xl font-semibold text-slate-800">
+                  {clinicStatus.departmentsActive}
+                </p>
+              </div>
+              <div className="rounded-xl bg-slate-50 p-4">
+                <p className="text-xs font-semibold text-slate-500">
+                  Beds Available
+                </p>
+                <p className="mt-2 text-2xl font-semibold text-slate-800">
+                  {clinicStatus.bedsAvailable}
+                </p>
+              </div>
+              <div className="rounded-xl bg-slate-50 p-4">
+                <p className="text-xs font-semibold text-slate-500">
+                  ICU Availability
+                </p>
+                <p className="mt-2 text-lg font-semibold text-slate-800">
+                  {clinicStatus.icuAvailability}
+                </p>
+              </div>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-slate-700">Alerts</p>
+              <div className="mt-3 space-y-2">
+                {clinicStatus.alerts.map((alert) => (
+                  <div
+                    key={alert}
+                    className="rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 text-sm text-slate-600"
+                  >
+                    {alert}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <EmptyState
+            title="No status data"
+            description="Clinic status is not available right now."
+          />
         )}
       </Modal>
     </div>

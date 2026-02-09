@@ -26,3 +26,15 @@ export const validatePatientUpdate = (formValues) => {
 
   return errors;
 };
+
+export const validateDoctor = (formValues) => {
+  const errors = {};
+
+  if (!formValues.name) errors.name = "Doctor name is required.";
+  if (!formValues.specialization)
+    errors.specialization = "Specialization is required.";
+  if (!formValues.availability)
+    errors.availability = "Availability is required.";
+
+  return errors;
+};

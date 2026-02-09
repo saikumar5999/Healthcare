@@ -134,5 +134,29 @@
       "time": "1 hour ago",
       "type": "Staff"
     }
+  ],
+  "clinicStatus": {
+    "departmentsActive": 6,
+    "bedsAvailable": 42,
+    "icuAvailability": "Moderate",
+    "alerts": [
+      "Radiology queue at 12 patients",
+      "Two critical cases in ER",
+      "Pediatrics coverage extended to 9 PM"
+    ]
+  },
+  "portalReports": [
+    {
+      "id": "R-2101",
+      "title": "CBC Panel",
+      "date": "2026-01-12",
+      "status": "Available"
+    },
+    {
+      "id": "R-2102",
+      "title": "X-Ray Chest",
+      "date": "2026-01-08",
+      "status": "Reviewed"
+    }
   ]
 }

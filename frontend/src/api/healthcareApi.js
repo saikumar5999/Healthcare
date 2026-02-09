@@ -31,6 +31,10 @@ export const fetchNotifications = async () => {
   return simulateRequest(sampleData.notifications || []);
 };
 
+export const fetchClinicStatus = async () => {
+  return simulateRequest(sampleData.clinicStatus);
+};
+
 export const createAppointment = async (payload) => {
   // Placeholder: swap with POST /api/appointments.
   return simulateRequest({ success: true, payload });
@@ -43,5 +47,19 @@ export const updateAppointmentStatus = async (id, status) => {
 
 export const updatePatient = async (id, payload) => {
   // Placeholder: swap with PATCH /api/patients/:id.
+  return simulateRequest({ success: true, id, payload });
+};
+
+export const fetchPortalReports = async () => {
+  return simulateRequest(sampleData.portalReports || []);
+};
+
+export const createDoctor = async (payload) => {
+  // Placeholder: swap with POST /api/doctors.
+  return simulateRequest({ success: true, payload });
+};
+
+export const updateDoctor = async (id, payload) => {
+  // Placeholder: swap with PATCH /api/doctors/:id.
   return simulateRequest({ success: true, id, payload });
 };
