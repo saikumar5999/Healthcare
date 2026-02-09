@@ -26,7 +26,9 @@ const Login = () => {
     }
 
     login({ name: formValues.name, role: formValues.role });
-    navigate("/", { replace: true });
+    navigate(formValues.role === "customer" ? "/portal" : "/dashboard", {
+      replace: true
+    });
   };
 
   return (

@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 
 const officeNavItems = [
-  { label: "Dashboard", to: "/" },
+  { label: "Dashboard", to: "/dashboard" },
   { label: "Patients", to: "/patients" },
   { label: "Appointments", to: "/appointments" },
   { label: "Doctors", to: "/doctors" },
