@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=DM+Serif+Display&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-800;
+    font-family: "Source Sans 3", "IBM Plex Sans", "Segoe UI", sans-serif;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: "DM Serif Display", "Source Sans 3", "Times New Roman", serif;
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "dashboard": {
+    "totalPatients": 2480,
+    "todaysAppointments": 84,
+    "doctorsOnDuty": 36,
+    "visitTrends": [
+      { "label": "Mon", "value": 120 },
+      { "label": "Tue", "value": 98 },
+      { "label": "Wed", "value": 150 },
+      { "label": "Thu", "value": 140 },
+      { "label": "Fri", "value": 170 }
+    ]
+  },
+  "patients": [
+    {
+      "id": "P-1001",
+      "name": "Avery Coleman",
+      "age": 35,
+      "gender": "Female",
+      "contact": "(555) 014-2211",
+      "status": "Active"
+    },
+    {
+      "id": "P-1002",
+      "name": "Noah Bennett",
+      "age": 42,
+      "gender": "Male",
+      "contact": "(555) 014-7782",
+      "status": "Critical"
+    },
+    {
+      "id": "P-1003",
+      "name": "Layla Khan",
+      "age": 29,
+      "gender": "Female",
+      "contact": "(555) 019-3021",
+      "status": "Discharged"
+    },
+    {
+      "id": "P-1004",
+      "name": "Caleb Tran",
+      "age": 51,
+      "gender": "Male",
+      "contact": "(555) 010-4491",
+      "status": "Active"
+    }
+  ],
+  "appointments": [
+    {
+      "id": "A-9001",
+      "date": "2026-02-10",
+      "time": "09:00",
+      "patient": "Avery Coleman",
+      "doctor": "Dr. Reyna Ortiz",
+      "status": "Confirmed"
+    },
+    {
+      "id": "A-9002",
+      "date": "2026-02-10",
+      "time": "10:30",
+      "patient": "Noah Bennett",
+      "doctor": "Dr. Liam Park",
+      "status": "Pending"
+    },
+    {
+      "id": "A-9003",
+      "date": "2026-02-10",
+      "time": "13:15",
+      "patient": "Layla Khan",
+      "doctor": "Dr. Anika Shah",
+      "status": "Completed"
+    }
+  ],
+  "doctors": [
+    {
+      "id": "D-501",
+      "name": "Dr. Reyna Ortiz",
+      "specialization": "Cardiology",
+      "availability": "Available"
+    },
+    {
+      "id": "D-502",
+      "name": "Dr. Liam Park",
+      "specialization": "Internal Medicine",
+      "availability": "Busy"
+    },
+    {
+      "id": "D-503",
+      "name": "Dr. Anika Shah",
+      "specialization": "Pediatrics",
+      "availability": "Available"
+    }
+  ],
+  "patientDetails": {
+    "id": "P-1001",
+    "name": "Avery Coleman",
+    "age": 35,
+    "gender": "Female",
+    "contact": "(555) 014-2211",
+    "bloodType": "O+",
+    "allergies": "Penicillin",
+    "medicalHistory": [
+      "2019: Hypertension - ongoing monitoring",
+      "2022: Minor surgery - appendectomy"
+    ],
+    "prescriptions": [
+      "Lisinopril 10mg - daily",
+      "Vitamin D 1000 IU - daily"
+    ],
+    "labReports": [
+      "2025-12-18: CBC - normal",
+      "2026-01-12: Lipid panel - borderline"
+    ]
+  }
+}
